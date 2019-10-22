@@ -73,4 +73,30 @@ class SeleniumTest {
         driver.quit();
 
     }
+
+    @Test
+    public void testGuru99LoginAndFindElementOnPage(){
+        //User ID: mngr229914
+        String username = "mngr229914";
+        //Password: EpUjAzu
+        String password = "EpUjAzu";
+        //Open the webpage
+        driver.get("http://demo.guru99.com/V4/");
+
+        //Find and fill the username field
+        WebElement usernameField = driver.findElement(By.xpath("//input[@name='uid']"));
+        usernameField.sendKeys(username);
+
+        //Find and fill the password field
+        WebElement passwordField = driver.findElement(By.xpath("//input[@name='password']"));
+        passwordField.sendKeys(password);
+
+        //Find and click the login button
+        WebElement loginButton = driver.findElement(By.name("btnLogin"));
+        loginButton.click();
+
+        //Verify the successful login
+        String managerStringValue = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td")).getText();
+        assertEquals(managerStringValue,"Manger Id : "+username);
+    }
 }
