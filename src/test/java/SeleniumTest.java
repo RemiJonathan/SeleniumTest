@@ -13,9 +13,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SeleniumExtension.class)
 class SeleniumTest {
-    private final String PATH = "C:\\Users\\conta\\Documents\\School\\SOFTWARE TESTING AND QUALITY ASSURANCE\\ChromeDriver";
+    //For School Computer use me
+    //private final String PATH = "C:\\Users\\conta\\Documents\\School\\SOFTWARE TESTING AND QUALITY ASSURANCE\\ChromeDriver";
+
+    //For Home Computer use me
+    private final String PATH ="C:\\Users\\Remi\\Documents\\School\\SOFTWARE TESTING AND QUALITY ASSURANCE\\ChromeDriver";
+
     private final String BROWSER = "webdriver.chrome.driver";
-    private final String SCREENSHOTS = "C:\\Users\\conta\\Documents\\School\\SOFTWARE TESTING AND QUALITY ASSURANCE\\Screenshots";
+
+    //For School Computer use me
+    //private final String SCREENSHOTS = "C:\\Users\\conta\\Documents\\School\\SOFTWARE TESTING AND QUALITY ASSURANCE\\Screenshots";
+
+    //For Home Computer use me
+    private final String SCREENSHOTS = "C:\\Users\\Remi\\Documents\\School\\SOFTWARE TESTING AND QUALITY ASSURANCE\\Screenshots";
 
     ChromeDriver driver;
 
