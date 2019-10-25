@@ -69,8 +69,21 @@ class SeleniumTest {
         tab.click();
     }
 
-    public void fillCustomerTable() {
-
+    public void fillCustomerTable(String customerName, String gender, String dateOfBirth, String address, String city, String state, String personalIdentificationNumber, String mobileNumber, String email, String password) {
+        driver.findElement(By.name("name")).sendKeys(customerName);
+        if (gender.toUpperCase().equals("MALE")) {
+            driver.findElements(By.name("rad1")).get(1).click();
+        } else {
+            driver.findElements(By.name("rad1")).get(2).click();
+        }
+        driver.findElement(By.name("dob")).sendKeys(dateOfBirth);
+        driver.findElement(By.name("addr")).sendKeys(address);
+        driver.findElement(By.name("city")).sendKeys(city);
+        driver.findElement(By.name("state")).sendKeys(state);
+        driver.findElement(By.name("pinno")).sendKeys(personalIdentificationNumber);
+        driver.findElement(By.name("telephoneno")).sendKeys(mobileNumber);
+        driver.findElement(By.name("emailid")).sendKeys(email);
+        driver.findElement(By.name("password")).sendKeys(password);
     }
 
     @Test
@@ -95,41 +108,9 @@ class SeleniumTest {
     public void test_registerNewCustomer_submitForm() {
         login();
         clickTab(2);
-
-        // Building Customer
-        String customerName;
-        String gender;
-        String dateOfBirth;
-        String address;
-        String city;
-        String state;
-        String personalIdentificationNumber;
-        String mobileNumber;
-        String email;
-        String password;
-
-        //Filling Customer info;
-        customerName = "Dylan Pita";
-        //gender = alpha male;
-        dateOfBirth = "0020000527";
-        address = "4997 Queens Bay";
-        city = "Balfour";
-        state = "BC";
-        personalIdentificationNumber = "568133";
-        mobileNumber = "5145552243";
-        email = "dylan@remyjonathan.com";
-        password = "Dylan224397";
-
-        driver.findElement(By.name("name")).sendKeys(customerName);
-        driver.findElements(By.name("rad1")).get(1).click();
-        driver.findElement(By.name("dob")).sendKeys(dateOfBirth);
-        driver.findElement(By.name("addr")).sendKeys(address);
-        driver.findElement(By.name("city")).sendKeys(city);
-        driver.findElement(By.name("state")).sendKeys(state);
-        driver.findElement(By.name("pinno")).sendKeys(personalIdentificationNumber);
-        driver.findElement(By.name("telephoneno")).sendKeys(mobileNumber);
-        driver.findElement(By.name("emailid")).sendKeys(email);
-        driver.findElement(By.name("password")).sendKeys(password);
+        //Use of randomness to generate original emails every time
+        fillCustomerTable("REMI JONATHAN", "male", "0019950612", "1230 Maple", "New York", "NY", "809828",
+                "5645552352", Math.round(Math.random() * 1000) + "user@email.com", Math.round(Math.random() * 100000) + "");
 
         driver.findElement(By.name("sub")).click();
 
@@ -137,7 +118,7 @@ class SeleniumTest {
     }
 
     @Test
-    public void test_returnToMgrDashboardAfterRegNewCustSucccess(){
+    public void test_returnToMgrDashboardAfterRegNewCustSucccess() {
 
     }
 }
