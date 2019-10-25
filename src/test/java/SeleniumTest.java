@@ -119,6 +119,15 @@ class SeleniumTest {
 
     @Test
     public void test_returnToMgrDashboardAfterRegNewCustSucccess() {
+        login();
+        clickTab(2);
+        //Use of randomness to generate original emails every time
+        fillCustomerTable("REMI JONATHAN", "male", "0019950612", "1230 Maple", "New York", "NY", "809828",
+                "5645552352", Math.round(Math.random() * 1000) + "user@email.com", Math.round(Math.random() * 100000) + "");
 
+        driver.findElement(By.name("sub")).click();
+        clickTab(1);
+        String managerStringValue = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td")).getText();
+        assertEquals(managerStringValue, "Manger Id : " + username);
     }
 }
