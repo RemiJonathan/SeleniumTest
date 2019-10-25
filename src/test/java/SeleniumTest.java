@@ -40,7 +40,7 @@ class SeleniumTest {
 
     public SeleniumTest(ChromeDriver driver) {
         this.driver = driver;
-        System.setProperty(BROWSER, PATH);
+        //System.setProperty(BROWSER, PATH);
         System.setProperty("sel.jup.screenshot.at.the.end.of.tests", "true");
         System.setProperty("sel.jup.screenshot.format", "png");
         System.setProperty("sel.jup.output.folder", "./src/test/testDoneScreenshots");
@@ -85,12 +85,12 @@ class SeleniumTest {
         driver.findElement(By.name("password")).sendKeys(password);
     }
 
-    public void fillAddAccountTable(int customerId, String accountType, int initialDeposit){
+    public void fillAddAccountTable(int customerId, String accountType, int initialDeposit) {
         driver.findElement(By.name("cusid")).sendKeys(Integer.toString(customerId));
         driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td[2]/select")).click();
-        if (accountType.toUpperCase().equals("Current")){
+        if (accountType.toUpperCase().equals("Current")) {
             driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td[2]/select/option[2]")).click();
-        }else {
+        } else {
             driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td[2]/select/option[1]")).click();
         }
         driver.findElement(By.name("inideposit")).sendKeys(Integer.toString(initialDeposit));
@@ -105,6 +105,7 @@ class SeleniumTest {
         //Verify the successful login
         String managerStringValue = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td")).getText();
         assertEquals("Manger Id : " + username, managerStringValue);
+
     }
 
     @Test
@@ -114,7 +115,7 @@ class SeleniumTest {
         clickTab(2);
         boolean addCustomerString = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[1]/td/p")).isDisplayed();
 
-        assertEquals(true,addCustomerString );
+        assertEquals(true, addCustomerString);
     }
 
     @Test
@@ -124,7 +125,7 @@ class SeleniumTest {
         clickTab(2);
         //Use of randomness to generate original emails every time
         fillCustomerTable("REMI JONATHAN", "male", "0019950612", "1230 Maple", "New York", "NY", "809828",
-                "5645552352", Math.round(Math.random() * 1000) + "user@email.com", Math.round(Math.random() * 100000) + "");
+                "5645552352", Math.round(Math.random() * 100000) + "user@email.com", Math.round(Math.random() * 100000) + "");
 
         driver.findElement(By.name("sub")).click();
 
@@ -138,7 +139,7 @@ class SeleniumTest {
         clickTab(2);
         //Use of randomness to generate original emails every time
         fillCustomerTable("REMI JONATHAN", "male", "0019950612", "1230 Maple", "New York", "NY", "809828",
-                "5645552352", Math.round(Math.random() * 1000) + "user@email.com", Math.round(Math.random() * 100000) + "");
+                "5645552352", "user" + Math.round(Math.random() * 10000) + "@email.com", Math.round(Math.random() * 100000) + "");
 
         driver.findElement(By.name("sub")).click();
         clickTab(1);
@@ -148,7 +149,7 @@ class SeleniumTest {
 
     @Test
     @Order(5)
-    public void test_newAccount_SelectPageSuccess(){
+    public void test_newAccount_SelectPageSuccess() {
         login();
         clickTab(5);
 
@@ -158,15 +159,39 @@ class SeleniumTest {
 
     @Test
     @Order(6)
-    public void test_newAccount_AddFormSuccess(){
+    public void test_newAccount_AddFormSuccess() {
         login();
         clickTab(5);
 
-        fillAddAccountTable(31540,"Current",199325);
+        fillAddAccountTable(31540, "Current", 199325);
         driver.findElement(By.name("button2")).click();
 
         String accountGeneratedString = driver.findElement(By.xpath("//*[@id=\"account\"]/tbody/tr[1]/td/p")).getText();
 
-        assertEquals("Account Generated Successfully!!!",accountGeneratedString);
+        assertEquals("Account Generated Successfully!!!", accountGeneratedString);
+    }
+
+    @Test
+    @Order(7)
+    public void test_balanceInquiry(){
+
+    }
+
+    @Test
+    @Order(8)
+    public void test_balanceInquiry(){
+
+    }
+
+    @Test
+    @Order(9)
+    public void test_balanceInquiry(){
+
+    }
+
+    @Test
+    @Order(10)
+    public void test_balanceInquiry(){
+
     }
 }
