@@ -1,5 +1,6 @@
 import io.github.bonigarcia.seljup.SeleniumExtension;
 //import org.junit.Test;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,9 @@ class SeleniumTest {
     public SeleniumTest(ChromeDriver driver) {
         this.driver = driver;
         System.setProperty(BROWSER, PATH);
+        System.setProperty("sel.jup.screenshot.at.the.end.of.tests", "true");
+        System.setProperty("sel.jup.screenshot.format", "png");
+        System.setProperty("sel.jup.output.folder", "./src/test/testDoneScreenshots");
     }
 
     public void login() {
@@ -59,11 +63,6 @@ class SeleniumTest {
         loginButton.click();
     }
 
-    /**
-     * click on a tab
-     *
-     * @param tabId is the ID of the element in the nav bar
-     */
     public void clickTab(int tabId) {
         WebElement tab = driver.findElement(By.xpath("/html/body/div[3]/div/ul/li[" + tabId + "]/a"));
         tab.click();
@@ -86,25 +85,40 @@ class SeleniumTest {
         driver.findElement(By.name("password")).sendKeys(password);
     }
 
+    public void fillAddAccountTable(int customerId, String accountType, int initialDeposit){
+        driver.findElement(By.name("cusid")).sendKeys(Integer.toString(customerId));
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td[2]/select")).click();
+        if (accountType.toUpperCase().equals("Current")){
+            driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td[2]/select/option[2]")).click();
+        }else {
+            driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td[2]/select/option[1]")).click();
+        }
+        driver.findElement(By.name("inideposit")).sendKeys(Integer.toString(initialDeposit));
+
+    }
+
     @Test
+    @Order(1)
     public void testGuru99LoginAndFindElementOnPage() {
         login();
 
         //Verify the successful login
         String managerStringValue = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td")).getText();
-        assertEquals(managerStringValue, "Manger Id : " + username);
+        assertEquals("Manger Id : " + username, managerStringValue);
     }
 
     @Test
+    @Order(2)
     public void test_registerNewCustomer_selectPage() {
         login();
         clickTab(2);
         boolean addCustomerString = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[1]/td/p")).isDisplayed();
 
-        assertEquals(addCustomerString, is(true));
+        assertEquals(true,addCustomerString );
     }
 
     @Test
+    @Order(3)
     public void test_registerNewCustomer_submitForm() {
         login();
         clickTab(2);
@@ -118,6 +132,7 @@ class SeleniumTest {
     }
 
     @Test
+    @Order(4)
     public void test_returnToMgrDashboardAfterRegNewCustSucccess() {
         login();
         clickTab(2);
@@ -128,6 +143,30 @@ class SeleniumTest {
         driver.findElement(By.name("sub")).click();
         clickTab(1);
         String managerStringValue = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[3]/td")).getText();
-        assertEquals(managerStringValue, "Manger Id : " + username);
+        assertEquals("Manger Id : " + username, managerStringValue);
+    }
+
+    @Test
+    @Order(5)
+    public void test_newAccount_SelectPageSuccess(){
+        login();
+        clickTab(5);
+
+        String addAccountStringValue = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[1]/td/p")).getText();
+        assertEquals("Add new account form", addAccountStringValue);
+    }
+
+    @Test
+    @Order(6)
+    public void test_newAccount_AddFormSuccess(){
+        login();
+        clickTab(5);
+
+        fillAddAccountTable(31540,"Current",199325);
+        driver.findElement(By.name("button2")).click();
+
+        String accountGeneratedString = driver.findElement(By.xpath("//*[@id=\"account\"]/tbody/tr[1]/td/p")).getText();
+
+        assertEquals("Account Generated Successfully!!!",accountGeneratedString);
     }
 }
